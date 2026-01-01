@@ -7,6 +7,7 @@ const slotRoutes = require("./routes/slots");
 const bookingRoutes = require("./routes/bookings");
 const adminRoutes = require("./routes/admin");
 
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors());
@@ -17,11 +18,14 @@ app.use("/api/slots", slotRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/admin", adminRoutes); // ✅ ONLY admin route
 
-mongoose.connect("mongodb://127.0.0.1:27017/appointmentDB")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch(console.error);
+  .catch(err => console.error(err));
 
-app.listen(5000, "0.0.0.0", () => {
-  console.log("Server running on port 5000");
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
+
 
